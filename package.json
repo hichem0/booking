@@ -1,9 +1,10 @@
 {
-    "homepage": "https://hichem0.github.io/sncf-js/build",
+    "homepage": "https://hichem0.github.io/react-sncf/build",
     "name": "sncf",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "js-md5": "^0.7.3",
         "react": "^16.12.0",
         "react-dom": "^16.12.0",
         "react-scripts": "3.2.0"
