@@ -8,12 +8,14 @@ export class UserCard extends React.Component {
         super(props);
     }
     render() {
-        return React.createElement('div', {}, null,
-            React.createElement('p', { style: { color: 'black' } }, 'First Name: ' + this.props.firstName),
-            React.createElement('p', { style: { color: 'black' } }, 'Last Name: ' + this.props.lastName),
-            React.createElement('p', { style: { color: 'red' } }, 'Email: ' + this.props.email),
-            React.createElement('img', { src: 'https://www.gravatar.com/avatar/' + md5(this.props.email) }, null),
-        );
+        const hash = md5(this.props.email);
+
+        return (<div>
+            <p className="makeblue">Last Name: {this.props.lastName}</p>
+            <p>First Name: {this.props.firstName}</p>
+            <p>Email: {this.props.email}</p>
+            <img src={"https://www.gravatar.com/avatar/" + hash}/>
+        </div>);
     }
 }
 UserCard.propTypes = {
