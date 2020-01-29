@@ -1,10 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
-import UserCard from './UserCard';
-import SearchSNCF from "./SearchSNCF";
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import App from './App';
 // export function App(props) {
 //     return React.createElement('p',{style: {color: "blue"}}, 'AppFunction '+props.name);
 // }
@@ -28,4 +25,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // }
 
 // ReactDOM.render(React.createElement(UserCard, null), document.getElementById('root'));
-ReactDOM.render(<SearchSNCF/>, document.getElementById('root'));
+// ReactDOM.render(<SearchSNCF/>, document.getElementById('root'));
+//
+ReactDOM.render(<App />, document.getElementById('App'));
+// ReactDOM.render(React.createElement(UserCard, null), document.getElementById('root'));
