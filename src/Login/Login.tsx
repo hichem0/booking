@@ -7,7 +7,6 @@ import CardActions from '@material-ui/core/CardActions';
 import Button from '@material-ui/core/Button';
 import CardHeader from '@material-ui/core/CardHeader';
 import axios from 'axios';
-import {any} from "prop-types";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -33,14 +32,14 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function Login() {
-    let isLogged = true;
+export default function Login(params:any) {
     const classes = useStyles();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [helperText, setHelperText] = useState('');
     const [error, setError] = useState(false);
+
 
     useEffect(() => {
         if (username.trim() && password.trim()) {
@@ -51,83 +50,95 @@ export default function Login() {
     }, [username, password]);
 
     const handleLogin = async () => {
+        let isLog = false;
+        try {
             let response = await axios.post(
                 "https://reqres.in/api/login",
                 {email: username, password: password},
-                { headers: { 'Content-Type': 'application/json' } }
+                {headers: {'Content-Type': 'application/json'}}
             );
 
             if (response.status === 200) {
-                isLogged = true;
+                isLog = true;
                 setHelperText('correct username or password')
 
-            } else {
-                setHelperText('Incorrect username or password')
+            }
+        } catch (e) {
+            isLog = false;
+            localStorage.setItem("logged", "false");
+            setHelperText('Incorrect username or password')
+        };
+        if (isLog) {
+            params.setLog(isLog);
+        }
+    }
+
+        const handleKeyPress = (e: any) => {
+            if (e.keyCode === 13 || e.which === 13) {
+                isButtonDisabled || handleLogin();
             }
         };
-
-    const handleKeyPress = (e:any) => {
-        if (e.keyCode === 13 || e.which === 13) {
-            isButtonDisabled || handleLogin();
-        }
-    };
-    if (!isLogged) {
-    return (
-        <React.Fragment>
-            <form className={classes.container} noValidate autoComplete="off">
-                <Card className={classes.card}>
-                    <CardHeader className={classes.header} title="Login App" />
-                    <CardContent>
-                        <div>
-                            <TextField
-                                error={error}
-                                fullWidth
-                                id="username"
-                                type="email"
-                                label="Username"
-                                placeholder="Username"
-                                margin="normal"
-                                onChange={(e)=>setUsername(e.target.value)}
-                                onKeyPress={(e)=>handleKeyPress(e)}
-                            />
-                            <TextField
-                                error={error}
-                                fullWidth
-                                id="password"
-                                type="password"
-                                label="Password"
-                                placeholder="Password"
-                                margin="normal"
-                                helperText={helperText}
-                                onChange={(e)=>setPassword(e.target.value)}
-                                onKeyPress={(e)=>handleKeyPress(e)}
-                            />
-                        </div>
-                    </CardContent>
-                    <CardActions>
-                        <Button
-                            variant="contained"
-                            size="large"
-                            color="secondary"
-                            className={classes.loginBtn}
-                            onClick={()=>handleLogin()}
-                            disabled={isButtonDisabled}>
-                            Login
-                        </Button>
-                    </CardActions>
-                </Card>
-            </form>
-        </React.Fragment>
-    );
-    }
-    else{
+        if (!params.isLog) {
             return (
-                <div>
-                    <h2>your already logged</h2>
+                <React.Fragment>
+                    <form className={classes.container} noValidate autoComplete="off">
+                        <Card className={classes.card}>
+                            <CardHeader className={classes.header} title="Login App"/>
+                            <CardContent>
+                                <div>
+                                    <TextField
+                                        error={error}
+                                        fullWidth
+                                        id="username"
+                                        type="email"
+                                        label="Username"
+                                        placeholder="Username"
+                                        margin="normal"
+                                        onChange={(e) => setUsername(e.target.value)}
+                                        onKeyPress={(e) => handleKeyPress(e)}
+                                    />
+                                    <TextField
+                                        error={error}
+                                        fullWidth
+                                        id="password"
+                                        type="password"
+                                        label="Password"
+                                        placeholder="Password"
+                                        margin="normal"
+                                        helperText={helperText}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        onKeyPress={(e) => handleKeyPress(e)}
+                                    />
+                                </div>
+                            </CardContent>
+                            <CardActions>
+                                <Button
+                                    variant="contained"
+                                    size="large"
+                                    color="secondary"
+                                    className={classes.loginBtn}
+                                    onClick={() => handleLogin()}
+                                    disabled={isButtonDisabled}>
+                                    Login
+                                </Button>
+                            </CardActions>
+                        </Card>
+                    </form>
+                </React.Fragment>
+            );
+        }         else{
+            return (
+                <div id="notfound">
+                    <div className="notfound">
+                        <div className="notfound-404">
+                            <h1>:)</h1>
+                        </div>
+                        <p>You are Already logged</p>
+                        <a href="/">Go To Homepage</a>
+                    </div>
                 </div>
+
             );
         }
 
 }
-
-

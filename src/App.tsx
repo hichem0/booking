@@ -1,11 +1,32 @@
-import React, { Component } from 'react';
-import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
+import React, {Component, useState} from 'react';
+import {BrowserRouter as Router, Link, Redirect, Route, Switch} from 'react-router-dom';
 import SearchSNCF from "./Sncf/SearchSNCF";
 import {UserCard} from "./UserCard/UserCard";
-import LoginPage from "./Login/Login";
+import Login from "./Login/Login";
 
-class App extends Component {
-    render() {
+export default function App() {
+    let log = false;
+    if (localStorage.getItem("isLog") === "true") {
+        log = true;
+    }
+
+    function disconnect() {
+        if (localStorage.getItem("isLog") === "true" ) {
+            localStorage.setItem("isLog", "false");
+            window.location.reload();
+            return (
+                <Redirect to={'/'} />
+            )
+        }
+    }
+
+  const [isLog, setLog] = useState(log);
+
+        function manageLog(state: boolean) {
+            setLog(state);
+            localStorage.setItem("isLog", String(state));
+        }
+
         return (
             <Router>
                 <div>
@@ -14,18 +35,18 @@ class App extends Component {
                             <li><Link to={'/'} className="nav-link"> Login </Link></li>
                             <li><Link to={'/UserCard'} className="nav-link"> UserCard </Link></li>
                             <li><Link to={'/SearchSNCF'} className="nav-link">SearchSNCF</Link></li>
+                            <li><Link to={'/'} className="nav-link" onClick={disconnect}> Logout </Link></li>
                         </ul>
                     </nav>
-                    <hr />
+                    <hr/>
                     <Switch>
-                        <Route exact path='/' component={LoginPage} />
-                        <Route exact path='/UserCard' component={UserCard} />
-                        <Route path='/SearchSNCF' component={SearchSNCF} />
+                        <Route exact path='/'><Login isLog={isLog} setLog={manageLog}></Login></Route>
+                        <Route exact path='/UserCard'> <UserCard isLog={isLog}/> </Route>
+                        <Route exact path='/SearchSNCF'><SearchSNCF isLog={isLog}/> </Route>
                     </Switch>
                 </div>
             </Router>
         );
     }
-}
 
-export default App;
+

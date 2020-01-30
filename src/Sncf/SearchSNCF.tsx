@@ -16,13 +16,36 @@ export default class SearchSNCF extends React.Component<any, any> {
     }
 
     render() {
+        if(this.props.isLog){
         return (
-            <form className={"mt-3"}>
+            <div>
+            <form className={"mt-1"}>
+                <InputSncf setGares={this.setGares}/>
+                <ListSncf listStation={this.state.listStation}/>
                 <InputSncf setGares={this.setGares}/>
                 <ListSncf listStation={this.state.listStation}/>
             </form>
+
+            </div>
+
         );
 
+        }
+        else{
+            return (
+                <div id="notfound">
+                    <div className="notfound">
+                        <div className="notfound-404">
+                            <h1>sorry</h1>
+                        </div>
+                        <p>Sorry but the page you are looking for you need to log before</p>
+                        <a href="/">Go To Homepage</a>
+                    </div>
+                </div>
+
+            );
+        }
     }
+
 }
 
