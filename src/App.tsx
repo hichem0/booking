@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
 import SearchSNCF from "./Sncf/SearchSNCF";
 import {UserCard} from "./UserCard/UserCard";
+import LoginPage from "./Login/Login";
 
 class App extends Component {
     render() {
@@ -17,6 +18,7 @@ class App extends Component {
                     </nav>
                     <hr />
                     <Switch>
+                        <Route exact path='/' component={LoginPage} />
                         <Route exact path='/UserCard' component={UserCard} />
                         <Route path='/SearchSNCF' component={SearchSNCF} />
                     </Switch>
