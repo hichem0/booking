@@ -1,30 +1,30 @@
 import React from 'react';
 import ListSncf from "./ListSncf";
 import InputSncf from "./InputSncf";
+import {Select} from "@material-ui/core";
 
 export default class SearchSNCF extends React.Component<any, any> {
-    constructor(props:any) {
+    constructor(props: any) {
         super(props);
         this.state = {
-            listStation: []
+            departure: "",
+            arrival: ""
         };
-        this.setGares = this.setGares.bind(this);
+        this.setStations = this.setStations.bind(this);
     }
 
-    async setGares(gares:any) {
-        this.setState({listStation: gares});
+
+    async setStations(depFromChild: any, arrivFromChild: any) {
+        this.setState({departure: depFromChild, arrival: arrivFromChild});
     }
+
 
     render() {
         if(this.props.isLog){
         return (
             <div>
-            <form className={"mt-1"}>
-                <InputSncf setGares={this.setGares}/>
-                <ListSncf listStation={this.state.listStation}/>
-                <InputSncf setGares={this.setGares}/>
-                <ListSncf listStation={this.state.listStation}/>
-            </form>
+                <InputSncf setStations={this.setStations}/>
+                {(this.state.departure && this.state.arrival) && <ListSncf departure={this.state.departure} arrival={this.state.arrival} promo={this.props.promo}/>}
                 <h2>Discount</h2>
                 {this.props.promo ? <p>Discount enabled</p> : <p>No Discount</p>}
             </div>

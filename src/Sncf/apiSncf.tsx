@@ -7,6 +7,5 @@ export async function SearchSNCF(query:any) {
     );
     return jsonResponse.records.map(function(gare:any) {
         return gare.fields.gare_ut_libelle;
-
     });
 }
