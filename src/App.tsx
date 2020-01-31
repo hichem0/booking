@@ -1,8 +1,12 @@
 import React, {Component, useState} from 'react';
 import {BrowserRouter as Router, Link, Redirect, Route, Switch} from 'react-router-dom';
 import SearchSNCF from "./Sncf/SearchSNCF";
-import {UserCard} from "./UserCard/UserCard";
+
 import Login from "./Login/Login";
+import {UserCard} from "./UserCard/UserCard";
+
+
+
 
 export default function App() {
     let log = false;
@@ -20,7 +24,10 @@ export default function App() {
         }
     }
 
-  const [isLog, setLog] = useState(log);
+    const [isLog, setLog] = useState(log);
+    const [promo, setPromo] = useState(
+        // initial value
+        document.cookie.split(';').some((item) => item.trim().startsWith('reduc=')));
 
         function manageLog(state: boolean) {
             setLog(state);
@@ -40,9 +47,9 @@ export default function App() {
                     </nav>
                     <hr/>
                     <Switch>
-                        <Route exact path='/'><Login isLog={isLog} setLog={manageLog}></Login></Route>
-                        <Route exact path='/UserCard'> <UserCard isLog={isLog}/> </Route>
-                        <Route exact path='/SearchSNCF'><SearchSNCF isLog={isLog}/> </Route>
+                        <Route exact path='/'><Login isLog={isLog}  setLog={manageLog}></Login></Route>
+                        <Route exact path='/UserCard'> <UserCard promo={promo} setPromo ={setPromo} isLog={isLog}/> </Route>
+                        <Route exact path='/SearchSNCF'><SearchSNCF promo={promo} isLog={isLog}/> </Route>
                     </Switch>
                 </div>
             </Router>

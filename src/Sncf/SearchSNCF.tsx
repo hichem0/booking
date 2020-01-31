@@ -25,7 +25,8 @@ export default class SearchSNCF extends React.Component<any, any> {
                 <InputSncf setGares={this.setGares}/>
                 <ListSncf listStation={this.state.listStation}/>
             </form>
-
+                <h2>Discount</h2>
+                {this.props.promo ? <p>Discount enabled</p> : <p>No Discount</p>}
             </div>
 
         );
